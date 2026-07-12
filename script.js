@@ -10,14 +10,7 @@ $("#start").click(function() {
   }
 });
 
-
-
-
-function createBalloon(balloon.css({
-  background: randomColor,
-  left: Math.random() * 830 + "px"
-});
-) {
+function createBalloon() {
   let colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink"];
 
   let randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -27,23 +20,29 @@ function createBalloon(balloon.css({
   balloon.addClass("balloon");
 
   balloon.css({
-    background: randomColor
-  } balloon.click(function() {
-  $(this).stop();
-  $(this).fadeOut();
-});
-);
-
-  $("#gameArea").append balloon.animate({
-  bottom: "600px"
-}, 4000);
-(balloon);
-}
-
-function createBalloon() {
-  let balloon = $("<div></div>");
-
-  balloon.addClass("balloon");
+    background: randomColor,
+    left: Math.random() * 830 + "px"
+  });
 
   $("#gameArea").append(balloon);
+
+  balloon.animate({
+    bottom: "600px"
+  }, 4000, function() {
+    $(this).remove();
+    createBalloon();
+  });
+
+  balloon.click(function() {
+    $(this).stop();
+
+    score++;
+
+    $("#score").text(score);
+
+    $(this).fadeOut(200, function() {
+      $(this).remove();
+      createBalloon();
+    });
+  });
 }
